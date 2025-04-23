@@ -5,13 +5,13 @@ import java.awt.image.ImageObserver;
 import java.io.File;
 
 public class Block extends Entity {
-    public Block() {
+    public Block(int x, int y) {
+        position = new Vector2(x, y);
         LoadImage(new File("sprites/block.png"));
     }
 
     @Override
     void Start() {
-        System.out.println("Hello, World");
     }
 
     @Override

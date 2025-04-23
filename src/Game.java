@@ -12,6 +12,7 @@ public class Game extends JPanel implements ActionListener, KeyListener {
     public static final int NumCols = 20;
     public static final int NumRows = 20;
     public static final int UpdateRate = 16;
+    public static final Vector2 BlockCount = new Vector2(10, 3);
 
     public static List<Entity> entityList = new ArrayList<>();
 
@@ -19,8 +20,17 @@ public class Game extends JPanel implements ActionListener, KeyListener {
         setPreferredSize(new Dimension(TileSize * NumCols, TileSize * NumRows));
 
         // Init State
-        entityList.add(new Block());
+        // Make 10 * 3 grid of blocks
+        for(int i = 0; i < BlockCount.y; i++) {
+            for(int j = 0; j < BlockCount.x * 2; j+=2) {
+                entityList.add(new Block(j, i));
+            }
+        }
 
+        // Call Start function
+        for(Entity e : entityList) {
+            e.Start();
+        }
         // Update Loop
         Timer timer = new Timer(UpdateRate, this);
         timer.start();

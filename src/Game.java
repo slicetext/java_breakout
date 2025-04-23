@@ -26,6 +26,8 @@ public class Game extends JPanel implements ActionListener, KeyListener {
                 entityList.add(new Block(j, i));
             }
         }
+        // Make paddle
+        entityList.add(new Paddle());
 
         // Call Start function
         for(Entity e : entityList) {

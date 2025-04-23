@@ -11,8 +11,15 @@ public abstract class Entity {
     BufferedImage image;
     abstract void Start();
     abstract void Update();
-    abstract void Draw(Graphics g, ImageObserver observer);
     abstract void OnKeyPress(KeyEvent e);
+    void Draw(Graphics g, ImageObserver observer) {
+        g.drawImage(
+                image,
+                position.x * Game.TileSize,
+                position.y * Game.TileSize,
+                observer
+        );
+    }
     void LoadImage(File file) {
         try {
             image = ImageIO.read(file);

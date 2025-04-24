@@ -23,11 +23,14 @@ public class Game extends JPanel implements ActionListener, KeyListener {
         // Make 10 * 3 grid of blocks
         for(int i = 0; i < BlockCount.y; i++) {
             for(int j = 0; j < BlockCount.x * 2; j+=2) {
-                entityList.add(new Block(j, i));
+                entityList.add(new Block(j * TileSize, i * TileSize));
             }
         }
         // Make paddle
         entityList.add(new Paddle());
+
+        // Make ball
+        entityList.add(new Ball());
 
         // Call Start function
         for(Entity e : entityList) {
@@ -49,6 +52,11 @@ public class Game extends JPanel implements ActionListener, KeyListener {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+
+        // Change bg color
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setColor(Color.GRAY);
+        g2d.fillRect(0, 0, getWidth(), getHeight());
 
         for(Entity e : entityList) {
             e.Draw(g, this);

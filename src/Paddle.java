@@ -7,7 +7,7 @@ class Paddle extends Entity {
     @Override
     void Start() {
         LoadImage(new File("sprites/paddle.png"));
-        position = new Vector2(0, 10);
+        position = new Vector2(0, 10 * Game.TileSize);
     }
 
     @Override
@@ -20,10 +20,10 @@ class Paddle extends Entity {
 
         switch (key) {
             case KeyEvent.VK_LEFT:
-                position.x -= 1;
+                position.x -= 8;
                 break;
             case KeyEvent.VK_RIGHT:
-                position.x += 1;
+                position.x += 8;
                 break;
             default:
                 break;

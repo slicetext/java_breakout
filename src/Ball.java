@@ -1,9 +1,9 @@
 import java.awt.event.KeyEvent;
 import java.io.File;
 
-class Ball extends Entity {
+public class Ball extends Entity {
     final public int speed = 1;
-    public Vector2 velocity = new Vector2(-speed, 0);
+    public Vector2 velocity = new Vector2(1, -speed);
 
     @Override
     void Start() {

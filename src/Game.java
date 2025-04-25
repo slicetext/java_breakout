@@ -15,6 +15,8 @@ public class Game extends JPanel implements ActionListener, KeyListener {
     public static final Vector2 BlockCount = new Vector2(10, 3);
 
     public static List<Entity> entityList = new ArrayList<>();
+    public static Ball ball;
+    public static Entity paddle;
 
     public Game() {
         setPreferredSize(new Dimension(TileSize * NumCols, TileSize * NumRows));
@@ -27,15 +29,17 @@ public class Game extends JPanel implements ActionListener, KeyListener {
             }
         }
         // Make paddle
-        entityList.add(new Paddle());
+        paddle = new Paddle();
 
         // Make ball
-        entityList.add(new Ball());
+        ball = new Ball();
 
         // Call Start function
         for(Entity e : entityList) {
             e.Start();
         }
+        paddle.Start();
+        ball.Start();
         // Update Loop
         Timer timer = new Timer(UpdateRate, this);
         timer.start();
@@ -43,9 +47,41 @@ public class Game extends JPanel implements ActionListener, KeyListener {
 
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
-        for(Entity e : entityList) {
+        // Update blocks
+        for(int e_index = 0; e_index < entityList.size(); e_index++) {
+            Entity e = entityList.get(e_index);
             e.Update();
+            // Collision
+            // Bottom
+            if ( e.position.x <= ball.position.x && e.position.x + 60 >= ball.position.x && ball.position.y == e.position.y + 30) {
+                ball.velocity.y = -1;
+                entityList.remove(e_index);
+            }
+            // Top
+            if ( e.position.x <= ball.position.x && e.position.x + 60 > ball.position.x && ball.position.y + 15 == e.position.y) {
+                ball.velocity.y = 1;
+                entityList.remove(e_index);
+            }
+            // Left
+            if ( e.position.y <= ball.position.y && e.position.y + 30 > ball.position.y && ball.position.x + 15 == e.position.x) {
+                ball.velocity.x = -1;
+                entityList.remove(e_index);
+            }
+            // Right
+            if ( e.position.y <= ball.position.y && e.position.y + 30 > ball.position.y && ball.position.x == e.position.x + 60) {
+                ball.velocity.x = 1;
+                entityList.remove(e_index);
+            }
         }
+        // Update ball
+        ball.Update();
+        // Update paddle
+        paddle.Update();
+        // Paddle Collisions
+        if ( paddle.position.x <= ball.position.x && paddle.position.x + 120 >= ball.position.x && ball.position.y + 30 == paddle.position.y + 15) {
+            ball.velocity.y = -1;
+        }
+
         repaint();
     }
 
@@ -61,6 +97,8 @@ public class Game extends JPanel implements ActionListener, KeyListener {
         for(Entity e : entityList) {
             e.Draw(g, this);
         }
+        paddle.Draw(g, this);
+        ball.Draw(g, this);
 
         // Smooths animations
         Toolkit.getDefaultToolkit().sync();
@@ -75,6 +113,8 @@ public class Game extends JPanel implements ActionListener, KeyListener {
         for(Entity e : entityList) {
             e.OnKeyPress(keyEvent);
         }
+        paddle.OnKeyPress(keyEvent);
+        ball.OnKeyPress(keyEvent);
     }
 
     @Override
